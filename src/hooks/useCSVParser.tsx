@@ -47,8 +47,23 @@ const useCSVParser = () => {
     []
   );
 
-  
-  return { parsedData, handleFileChange };
+  const fetchAndParseCSVFileByUrl = useCallback(async (url: string) => {
+    try {
+      const response = await fetch(url);
+      const data = await response.text();
+      Papa.parse(data, {
+        complete: (result: ParseResult<any>) => {
+          console.log("Parsed Results:", result.data);
+          setData(result.data);
+        },
+        header: true,
+      });
+    } catch (error) {
+      console.error("Error fetching and parsing CSV:", error);
+    }
+  }, []);
+
+  return { parsedData, handleFileChange, fetchAndParseCSVFileByUrl };
 };
 
 export default useCSVParser;
