@@ -21,12 +21,22 @@ const useCSVParser = () => {
                   resolve(result.data);
                 },
                 header: true,
-                transform: function(value:string) {
+                transform: function (value: string) {
                   // Replace empty cells with null
                   if (value.trim() === "") {
                     return null;
                   }
                   return value;
+                },
+                transformHeader: function (header: string) {
+                  // Convert header to camel case
+                  return header
+                    .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) => {
+                      return index === 0
+                        ? letter.toLowerCase()
+                        : letter.toUpperCase();
+                    })
+                    .replace(/\s+/g, "");
                 },
               });
             };
@@ -57,6 +67,21 @@ const useCSVParser = () => {
           setData(result.data);
         },
         header: true,
+        transform: function (value: string) {
+          // Replace empty cells with null
+          if (value.trim() === "") {
+            return null;
+          }
+          return value;
+        },
+        transformHeader: function (header: string) {
+          // Convert header to camel case
+          return header
+            .replace(/(?:^\w|[A-Z]|\b\w)/g, (letter, index) => {
+              return index === 0 ? letter.toLowerCase() : letter.toUpperCase();
+            })
+            .replace(/\s+/g, "");
+        },
       });
     } catch (error) {
       console.error("Error fetching and parsing CSV:", error);
