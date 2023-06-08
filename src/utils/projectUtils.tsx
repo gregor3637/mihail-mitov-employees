@@ -1,7 +1,7 @@
 import {
   ProjectParticipant,
   ProjectParticipantCollection,
-} from "../types/EmployeeType";
+} from "../types/ParticipantType";
 
 export const obtainProjectParticipantsData = (
   empoyees: ProjectParticipantCollection

@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { ProjectParticipantCollection } from "../types/EmployeeType";
+import { ProjectParticipantCollection } from "../types/ParticipantType";
 import { ProjectParticipantCollectionSchema } from "../zodSchemas/projectParticipantSchema";
 
 export const validateProjectParticipationCollection = (

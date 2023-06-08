@@ -1,5 +1,5 @@
 import useCSVParser from "./hooks/useCSVParser";
-import { ProjectParticipantCollection } from "./types/EmployeeType";
+import { ProjectParticipantCollection } from "./types/ParticipantType";
 import { obtainProjectParticipantsData } from "./utils/projectUtils";
 import { validateProjectParticipationCollection } from "./utils/validateCSVData";
 
