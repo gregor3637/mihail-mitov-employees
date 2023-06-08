@@ -1,3 +1,4 @@
+import Grid from "./components/Grid";
 import useCSVParser from "./hooks/useCSVParser";
 import { CollaboratorsPairData } from "./types/Collaboration";
 import { ProjectParticipantCollection } from "./types/ParticipantType";
@@ -53,6 +54,7 @@ function App() {
       <div>
         <input type="file" accept=".csv" onChange={handleFileChange} />
       </div>
+      <Grid />
     </>
   );
 }
