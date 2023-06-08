@@ -5,4 +5,6 @@ export type Project = {
   participants: Array<ParticipantWorkSpan>;
 };
 
-export type ProjectCollection = Map<number, Project>;
+export type ProjectParticipants = Array<ParticipantWorkSpan>;
+
+export type ProjectParticipationCollection = Map<number, ProjectParticipants>;
