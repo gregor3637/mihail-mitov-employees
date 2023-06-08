@@ -1,25 +1,35 @@
 import {
   ProjectParticipant,
   ProjectParticipantCollection,
+  ParticipantWorkSpan,
 } from "../types/ParticipantType";
+import { Project } from "../types/ProjectTypes";
 
 export const obtainProjectParticipantsData = (
-  empoyees: ProjectParticipantCollection
+  participants: ProjectParticipantCollection
 ) => {
-  const f = empoyees.reduce((allProjects: any, emp: ProjectParticipant) => {
-    if (!Object.prototype.hasOwnProperty.call(allProjects, emp.ProjectID)) {
-      allProjects[emp.ProjectID] = {
-        [emp.EmpID]: { DateFrom: emp.DateFrom, DateTo: emp.DateTo },
+  const projById = participants.reduce(
+    (allProjects: Map<number, Project>, emp: ProjectParticipant) => {
+      const participantWorkSpan: ParticipantWorkSpan = {
+        empID: emp.empID,
+        dateFrom: emp.dateFrom,
+        dateTo: emp.dateTo,
       };
-    } else {
-      allProjects[emp.ProjectID] = {
-        ...allProjects[emp.ProjectID],
-        [emp.EmpID]: { DateFrom: emp.DateFrom, DateTo: emp.DateTo },
-      };
-    }
 
-    return allProjects;
-  }, {});
+      if (!allProjects.has(emp.projectID)) {
+        const project: Project = {
+          id: emp.projectID,
+          participants: [participantWorkSpan],
+        };
+        allProjects.set(emp.projectID, project);
+      } else {
+        allProjects.get(emp.projectID)?.participants.push(participantWorkSpan);
+      }
 
-  return f;
+      return allProjects;
+    },
+    new Map<number, Project>()
+  );
+
+  return projById;
 };

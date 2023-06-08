@@ -13,19 +13,19 @@ import {
 } from "../utils/zodMessages";
 
 export const ProjectParticipantSchema = z.object({
-  EmpID: z
+  empID: z
     .string()
     .refine(isNumber, invalidNumberMessage("EmpID"))
     .transform(parseNumber),
-  ProjectID: z
+  projectID: z
     .string()
     .refine(isNumber, invalidNumberMessage("ProjectID"))
     .transform(parseNumber),
-  DateFrom: z
+  dateFrom: z
     .string()
     .refine(hasDateFormat, invalidDateToFormatMessage())
     .transform((val) => new Date(val)),
-  DateTo: z
+  dateTo: z
     .string()
     .nullable()
     .refine(isDateToAValidEntry, invalidDateToMessage("DateTo"))

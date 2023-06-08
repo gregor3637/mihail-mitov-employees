@@ -4,12 +4,7 @@ import { ProjectParticipantCollectionSchema } from "../zodSchemas/projectPartici
 
 export const validateProjectParticipationCollection = (
   data: unknown
-): ProjectParticipantCollection | null => {
+): ProjectParticipantCollection => {
   const parsedResult = ProjectParticipantCollectionSchema.safeParse(data);
-
-  if (parsedResult.success) {
-    return parsedResult.data;
-  } else {
-    return null;
-  }
+  return parsedResult.success ? parsedResult.data : [];
 };

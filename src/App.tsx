@@ -1,5 +1,6 @@
 import useCSVParser from "./hooks/useCSVParser";
 import { ProjectParticipantCollection } from "./types/ParticipantType";
+import { Project } from "./types/ProjectTypes";
 import { obtainProjectParticipantsData } from "./utils/projectUtils";
 import { validateProjectParticipationCollection } from "./utils/validateCSVData";
 
@@ -8,15 +9,20 @@ const pathToCSVFile = "/public/data.csv";
 function App() {
   const { parsedData, handleFileChange, fetchAndParseCSVFileByUrl } =
     useCSVParser();
-  console.log("🚀 parsedData:", parsedData);
+  // console.log("🚀 parsedData:", parsedData);
 
   if (parsedData.length > 0) {
-    const participantCollection: ProjectParticipantCollection | null =
+    const participantCollection: ProjectParticipantCollection =
       validateProjectParticipationCollection(parsedData);
+    // console.log("🚀🚀🚀🚀 participantCollection:", participantCollection);
 
-    const projectsData = participantCollection
-      ? obtainProjectParticipantsData(participantCollection)
-      : {};
+    const projectsData: Map<number, Project> = obtainProjectParticipantsData(
+      participantCollection
+    );
+    // const projectsData: Map<number, Project> | Record<string, never> =
+    //   participantCollection
+    //     ? obtainProjectParticipantsData(participantCollection)
+    //     : {};
 
     console.log("🚀🚀🚀🚀 projectsData:", projectsData);
   }
