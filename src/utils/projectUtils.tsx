@@ -1,7 +1,12 @@
-import { Employee, EmployeeCollection } from "../types/EmployeeType";
+import {
+  ProjectParticipant,
+  ProjectParticipantCollection,
+} from "../types/EmployeeType";
 
-export const obtainProjectParticipantsData = (empoyees: EmployeeCollection) => {
-  const f = empoyees.reduce((allProjects: any, emp: Employee) => {
+export const obtainProjectParticipantsData = (
+  empoyees: ProjectParticipantCollection
+) => {
+  const f = empoyees.reduce((allProjects: any, emp: ProjectParticipant) => {
     if (!Object.prototype.hasOwnProperty.call(allProjects, emp.ProjectID)) {
       allProjects[emp.ProjectID] = {
         [emp.EmpID]: { DateFrom: emp.DateFrom, DateTo: emp.DateTo },

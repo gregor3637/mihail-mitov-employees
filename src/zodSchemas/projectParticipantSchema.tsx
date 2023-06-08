@@ -12,7 +12,7 @@ import {
   invalidNumberMessage,
 } from "../utils/zodMessages";
 
-export const EmployeeSchema = z.object({
+export const ProjectParticipantSchema = z.object({
   EmpID: z
     .string()
     .refine(isNumber, invalidNumberMessage("EmpID"))
@@ -32,4 +32,4 @@ export const EmployeeSchema = z.object({
     .transform((val) => (isEmptyDateEntry(val) ? new Date() : new Date(val!))),
 });
 
-export const EmployeeCollectionSchema = z.array(EmployeeSchema);
+export const ProjectParticipantCollectionSchema = z.array(ProjectParticipantSchema);

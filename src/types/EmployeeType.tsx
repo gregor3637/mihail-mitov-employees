@@ -1,8 +1,10 @@
 import { z } from "zod";
 import {
-  EmployeeCollectionSchema,
-  EmployeeSchema,
-} from "../zodSchemas/employeeSchema";
+  ProjectParticipantCollectionSchema,
+  ProjectParticipantSchema,
+} from "../zodSchemas/projectParticipantSchema";
 
-export type Employee = z.infer<typeof EmployeeSchema>;
-export type EmployeeCollection = z.infer<typeof EmployeeCollectionSchema>;
+export type ProjectParticipant = z.infer<typeof ProjectParticipantSchema>;
+export type ProjectParticipantCollection = z.infer<typeof ProjectParticipantCollectionSchema>;
+export type ParticipantWorkSpan = Omit<ProjectParticipant, "ProjectID">;
+

@@ -1,7 +1,7 @@
 import useCSVParser from "./hooks/useCSVParser";
-import { EmployeeCollection } from "./types/EmployeeType";
+import { ProjectParticipantCollection } from "./types/EmployeeType";
 import { obtainProjectParticipantsData } from "./utils/projectUtils";
-import { validateEmployeeCollection } from "./utils/validateCSVData";
+import { validateProjectParticipationCollection } from "./utils/validateCSVData";
 
 const pathToCSVFile = "/public/data.csv";
 
@@ -11,11 +11,11 @@ function App() {
   console.log("🚀 parsedData:", parsedData);
 
   if (parsedData.length > 0) {
-    const employeeCollection: EmployeeCollection | null =
-      validateEmployeeCollection(parsedData);
+    const participantCollection: ProjectParticipantCollection | null =
+      validateProjectParticipationCollection(parsedData);
 
-    const projectsData = employeeCollection
-      ? obtainProjectParticipantsData(employeeCollection)
+    const projectsData = participantCollection
+      ? obtainProjectParticipantsData(participantCollection)
       : {};
 
     console.log("🚀🚀🚀🚀 projectsData:", projectsData);

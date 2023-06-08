@@ -1,11 +1,11 @@
 import { z } from "zod";
-import { EmployeeCollection } from "../types/EmployeeType";
-import { EmployeeCollectionSchema } from "../zodSchemas/employeeSchema";
+import { ProjectParticipantCollection } from "../types/EmployeeType";
+import { ProjectParticipantCollectionSchema } from "../zodSchemas/projectParticipantSchema";
 
-export const validateEmployeeCollection = (
+export const validateProjectParticipationCollection = (
   data: unknown
-): EmployeeCollection | null => {
-  const parsedResult = EmployeeCollectionSchema.safeParse(data);
+): ProjectParticipantCollection | null => {
+  const parsedResult = ProjectParticipantCollectionSchema.safeParse(data);
 
   if (parsedResult.success) {
     return parsedResult.data;
