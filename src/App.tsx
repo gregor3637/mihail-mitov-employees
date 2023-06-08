@@ -1,5 +1,6 @@
 import useCSVParser from "./hooks/useCSVParser";
 import { EmployeeCollection } from "./types/EmployeeType";
+import { obtainProjectParticipantsData } from "./utils/projectUtils";
 import { validateEmployeeCollection } from "./utils/validateCSVData";
 
 const pathToCSVFile = "/public/data.csv";
@@ -13,7 +14,11 @@ function App() {
     const employeeCollection: EmployeeCollection | null =
       validateEmployeeCollection(parsedData);
 
-    console.log("🚀 ~ employeeCollection:", employeeCollection);
+    const projectsData = employeeCollection
+      ? obtainProjectParticipantsData(employeeCollection)
+      : {};
+
+    console.log("🚀🚀🚀🚀 projectsData:", projectsData);
   }
 
   const handleButtonClick = () => {
@@ -22,7 +27,7 @@ function App() {
 
   return (
     <>
-      <button onClick={handleButtonClick}>load existing csv file</button>
+      <button onClick={handleButtonClick}>load existing csv fileee</button>
       <div>
         <input type="file" accept=".csv" onChange={handleFileChange} />
       </div>
