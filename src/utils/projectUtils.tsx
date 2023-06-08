@@ -1,4 +1,7 @@
-import { CollaborationData } from "../types/Collaboration";
+import {
+  CollaborationData,
+  CollaboratorsPairData,
+} from "../types/Collaboration";
 import {
   ProjectParticipant,
   ProjectParticipantCollection,
@@ -78,3 +81,121 @@ export const getParticipantPairCollaborationTime = (
 
   return data;
 };
+
+export const collaborationBetweenParticipants = (
+  projectsParticipations: ProjectParticipationCollection
+) => {
+  const collabolatorsPairCollection: Map<string, CollaboratorsPairData> =
+    new Map();
+
+  projectsParticipations.forEach((participants, projId) => {
+    const collaborationData = getParticipantPairCollaborationTime(participants);
+
+    if (collaborationData.length > 0) {
+      const singleCollaborationBetweenParticipants = collaborationData[0];
+
+      if (
+        !collabolatorsPairCollection.get(
+          singleCollaborationBetweenParticipants.collaborationId
+        )
+      ) {
+        // check if collaborationData[n].collaborationId exists in CollaboratorsPairDataCollection
+        // if no => create a new CollaboratorsPairData and add the >project id< and >project days<
+        // if yes => update the >totalCollaborationDays< and push into >projects<
+
+        const pairData: CollaboratorsPairData = {
+          id: singleCollaborationBetweenParticipants.collaborationId,
+          firstCollaboratorID:
+            singleCollaborationBetweenParticipants.firstCollaboratorID,
+          secondCollaboratorID:
+            singleCollaborationBetweenParticipants.secondCollaboratorID,
+          totalCollaborationDays: singleCollaborationBetweenParticipants.days,
+          projects: [
+            {
+              id: projId,
+              collaborationDays: singleCollaborationBetweenParticipants.days,
+            },
+          ],
+        };
+
+        collabolatorsPairCollection.set(
+          singleCollaborationBetweenParticipants.collaborationId,
+          pairData
+        );
+      } else {
+        const collabolatorsPair = collabolatorsPairCollection.get(
+          singleCollaborationBetweenParticipants.collaborationId
+        );
+
+        if (collabolatorsPair) {
+          collabolatorsPair.totalCollaborationDays +=
+            singleCollaborationBetweenParticipants.days;
+
+          collabolatorsPair.projects.push({
+            id: projId,
+            collaborationDays: singleCollaborationBetweenParticipants.days,
+          });
+        }
+      }
+    }
+  });
+
+  return collabolatorsPairCollection;
+};
+
+// const collaborationData = Array.from(projectsParticipations.entries()).map(
+//   ([projId, participants]) => {
+//     const collaborationData = getParticipantPairCollaborationTime(participants);
+
+//     const collabolatorsPairCollection: Map<string, CollaboratorsPairData> =
+//       new Map();
+
+//     if (collaborationData.length > 0) {
+//       const singleCollaborationBetweenParticipants = collaborationData[0];
+
+//       if (
+//         !collabolatorsPairCollection.get(
+//           singleCollaborationBetweenParticipants.collaborationId
+//         )
+//       ) {
+//         // check if collaborationData[n].collaborationId exists in CollaboratorsPairDataCollection
+//         // if no => create a new CollaboratorsPairData and add the >project id< and >project days<
+//         // if yes => update the >totalCollaborationDays< and push into >projects<
+
+//         const pairData: CollaboratorsPairData = {
+//           id: singleCollaborationBetweenParticipants.collaborationId,
+//           firstCollaboratorID:
+//             singleCollaborationBetweenParticipants.firstCollaboratorID,
+//           secondCollaboratorID:
+//             singleCollaborationBetweenParticipants.secondCollaboratorID,
+//           totalCollaborationDays: singleCollaborationBetweenParticipants.days,
+//           projects: [
+//             {
+//               id: projId,
+//               collaborationDays: singleCollaborationBetweenParticipants.days,
+//             },
+//           ],
+//         };
+
+//         collabolatorsPairCollection.set(
+//           singleCollaborationBetweenParticipants.collaborationId,
+//           pairData
+//         );
+//       } else {
+//         const collabolatorsPair = collabolatorsPairCollection.get(
+//           singleCollaborationBetweenParticipants.collaborationId
+//         );
+
+//         if (collabolatorsPair) {
+//           collabolatorsPair.totalCollaborationDays +=
+//             singleCollaborationBetweenParticipants.days;
+
+//           collabolatorsPair.projects.push({
+//             id: projId,
+//             collaborationDays: singleCollaborationBetweenParticipants.days,
+//           });
+//         }
+//       }
+//     }
+//   }
+// );
