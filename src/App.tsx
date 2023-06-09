@@ -1,17 +1,33 @@
+import { useEffect, useState } from "react";
 import Grid from "./components/Grid";
 import useCSVParser from "./hooks/useCSVParser";
-const pathToCSVFile = "/public/data.csv";
 import FileInput from "./components/FileInput";
+import { allCollaborations, longestCollaboration } from "./utils/csvToGridRow";
+import { RowData } from "./types/RowData";
 
 import styles from "./example.module.css";
 
+const pathToCSVFile = "/public/data.csv";
+
 function App() {
+  const [longestParticipationDataRows, setLongestParticipationDataRows] =
+    useState<RowData[]>([]);
+  const [allParticipationDataRows, setAllParticipationDataRows] = useState<
+    RowData[]
+  >([]);
   const { parsedData, handleFileChange, fetchAndParseCSVFileByUrl } =
     useCSVParser();
 
   const handleButtonClick = () => {
     fetchAndParseCSVFileByUrl(pathToCSVFile);
   };
+
+  useEffect(() => {
+    if (parsedData.length > 0) {
+      setLongestParticipationDataRows(longestCollaboration(parsedData));
+      setAllParticipationDataRows(allCollaborations(parsedData));
+    }
+  }, [parsedData]);
 
   return (
     <>
@@ -22,9 +38,21 @@ function App() {
         >
           load existing csv fileee
         </button>
-        <FileInput handleFile={handleFileChange}/>
+        <FileInput handleFile={handleFileChange} />
       </div>
-      {parsedData && parsedData.length > 0 && <Grid csvEntries={parsedData} />}
+      {longestParticipationDataRows &&
+        longestParticipationDataRows.length > 0 && (
+          <div style={{backgroundColor: "#277db6"}}>
+            <h2>Longest Collaboration between employees</h2>
+            <Grid rowsData={longestParticipationDataRows} />
+          </div>
+        )}
+      {allParticipationDataRows && allParticipationDataRows.length > 0 && (
+        <div style={{backgroundColor: "#27b67a"}}>
+          <h2>All collaborations between employees</h2>
+          <Grid rowsData={allParticipationDataRows} />
+        </div>
+      )}
     </>
   );
 }
